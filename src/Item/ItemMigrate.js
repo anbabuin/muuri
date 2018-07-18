@@ -16,7 +16,7 @@ import arrayInsert from '../utils/arrayInsert.js';
 import normalizeArrayIndex from '../utils/normalizeArrayIndex.js';
 import removeClass from '../utils/removeClass.js';
 import setStyles from '../utils/setStyles.js';
-import { transformProp } from '../utils/supportedTransform.js';
+//import { transformProp } from '../utils/supportedTransform.js';
 
 var tempStyles = {};
 
@@ -92,21 +92,24 @@ ItemMigrate.prototype.start = function(targetGrid, position, container) {
 
   // Abort current positioning.
   if (item.isPositioning()) {
-    item._layout.stop(true, { transform: getTranslateString(translateX, translateY) });
+    //item._layout.stop(true, { transform: getTranslateString(translateX, translateY) });
+    item._layout.stop(true, getTranslateString(translateX, translateY));
   }
 
   // Abort current migration.
   if (this._isActive) {
     translateX -= this._containerDiffX;
     translateY -= this._containerDiffY;
-    this.stop(true, { transform: getTranslateString(translateX, translateY) });
+   // this.stop(true, { transform: getTranslateString(translateX, translateY) });
+    this.stop(true, getTranslateString(translateX, translateY));
   }
 
   // Abort current release.
   if (item.isReleasing()) {
     translateX -= item._release._containerDiffX;
     translateY -= item._release._containerDiffY;
-    item._release.stop(true, { transform: getTranslateString(translateX, translateY) });
+    //item._release.stop(true, { transform: getTranslateString(translateX, translateY) });
+    item._release.stop(true, getTranslateString(translateX, translateY) );
   }
 
   // Stop current visibility animations.
@@ -169,10 +172,12 @@ ItemMigrate.prototype.start = function(targetGrid, position, container) {
       translateX = translate.x;
       translateY = translate.y;
     }
-    element.style[transformProp] = getTranslateString(
-      translateX + offsetDiff.left,
-      translateY + offsetDiff.top
-    );
+    // element.style[transformProp] = getTranslateString(
+    //   translateX + offsetDiff.left,
+    //   translateY + offsetDiff.top
+    // );
+    element.style.left=translateX + offsetDiff.left+'px';
+    element.style.top= translateY + offsetDiff.top+'px';
   }
 
   // Update child element's styles to reflect the current visibility state.
@@ -248,12 +253,16 @@ ItemMigrate.prototype.stop = function(abort, currentStyles) {
     if (!currentStyles) {
       if (abort) {
         translate = getTranslate(element);
-        tempStyles.transform = getTranslateString(
-          translate.x - this._containerDiffX,
-          translate.y - this._containerDiffY
-        );
+        // tempStyles.transform = getTranslateString(
+        //   translate.x - this._containerDiffX,
+        //   translate.y - this._containerDiffY
+        // );
+        tempStyles.left=  translate.x - this._containerDiffX+'px';
+        tempStyles.top= translate.y - this._containerDiffY+'px';
       } else {
-        tempStyles.transform = getTranslateString(item._left, item._top);
+        //tempStyles.transform = getTranslateString(item._left, item._top);
+        tempStyles.left=  item._left+'px';
+        tempStyles.top= item._top+'px';
       }
       currentStyles = tempStyles;
     }

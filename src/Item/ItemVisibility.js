@@ -296,7 +296,9 @@ ItemVisibility.prototype._finishHide = function() {
   if (!this._isHidden) return;
   var item = this._item;
   this._isHiding = false;
-  finishStyles.transform = getTranslateString(0, 0);
+  //finishStyles.transform = getTranslateString(0, 0);
+  finishStyles.left='0px';
+  finishStyles.top='0px';
   item._layout.stop(true, finishStyles);
   item._element.style.display = 'none';
   this._queue.flush(false, item);

@@ -14,6 +14,7 @@ import { transformProp } from './supportedTransform.js';
  */
 export default function setStyles(element, styles) {
   for (var prop in styles) {
-    element.style[prop === 'transform' ? transformProp : prop] = styles[prop];
+    // element.style[prop === 'transform' ? transformProp : prop] = styles[prop];
+    element.style[prop] = styles[prop];
   }
 }

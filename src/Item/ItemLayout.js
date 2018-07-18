@@ -56,7 +56,7 @@ function ItemLayout(item) {
  * @param {Function} [onFinish]
  * @returns {ItemLayout}
  */
-ItemLayout.prototype.start = function(instant, onFinish) {
+ItemLayout.prototype.start = function (instant, onFinish) {
   if (this._isDestroyed) return;
 
   var item = this._item;
@@ -100,7 +100,9 @@ ItemLayout.prototype.start = function(instant, onFinish) {
       : 0;
 
   // Get target styles.
-  this._targetStyles.transform = getTranslateString(item._left + offsetLeft, item._top + offsetTop);
+  //this._targetStyles.transform = getTranslateString(item._left + offsetLeft, item._top + offsetTop);
+  this._targetStyles.left = item._left + offsetLeft + 'px';
+  this._targetStyles.top = item._top + offsetTop + 'px';
 
   // If no animations are needed, easy peasy!
   if (!animEnabled) {
@@ -136,7 +138,7 @@ ItemLayout.prototype.start = function(instant, onFinish) {
  * @param {Object} [targetStyles]
  * @returns {ItemLayout}
  */
-ItemLayout.prototype.stop = function(processCallbackQueue, targetStyles) {
+ItemLayout.prototype.stop = function (processCallbackQueue, targetStyles) {
   if (this._isDestroyed || !this._isActive) return this;
 
   var item = this._item;
@@ -166,7 +168,7 @@ ItemLayout.prototype.stop = function(processCallbackQueue, targetStyles) {
  * @memberof ItemLayout.prototype
  * @returns {ItemLayout}
  */
-ItemLayout.prototype.destroy = function() {
+ItemLayout.prototype.destroy = function () {
   if (this._isDestroyed) return this;
   this.stop(true, {});
   this._queue.destroy();
@@ -186,7 +188,7 @@ ItemLayout.prototype.destroy = function() {
  * @private
  * @memberof ItemLayout.prototype
  */
-ItemLayout.prototype._finish = function() {
+ItemLayout.prototype._finish = function () {
   if (this._isDestroyed) return;
 
   var item = this._item;
@@ -213,7 +215,7 @@ ItemLayout.prototype._finish = function() {
  * @private
  * @memberof ItemLayout.prototype
  */
-ItemLayout.prototype._setupAnimation = function() {
+ItemLayout.prototype._setupAnimation = function () {
   var element = this._item._element;
   var translate = getTranslate(element);
   this._currentLeft = translate.x - this._offsetLeft;
@@ -226,7 +228,7 @@ ItemLayout.prototype._setupAnimation = function() {
  * @private
  * @memberof ItemLayout.prototype
  */
-ItemLayout.prototype._startAnimation = function() {
+ItemLayout.prototype._startAnimation = function () {
   var item = this._item;
   var element = item._element;
   var grid = item.getGrid();
@@ -244,10 +246,12 @@ ItemLayout.prototype._startAnimation = function() {
   !this._isInterrupted && addClass(element, settings.itemPositioningClass);
 
   // Get current styles for animation.
-  this._currentStyles.transform = getTranslateString(
-    this._currentLeft + this._offsetLeft,
-    this._currentTop + this._offsetTop
-  );
+  // this._currentStyles.transform = getTranslateString(
+  //   this._currentLeft + this._offsetLeft,
+  //   this._currentTop + this._offsetTop
+  // );
+  this._currentStyles.left = this._currentLeft + this._offsetLeft + 'px';
+  this._currentStyles.top = this._currentTop + this._offsetTop + 'px';
 
   // Animate.
   item._animate.start(this._currentStyles, this._targetStyles, this._animateOptions);
